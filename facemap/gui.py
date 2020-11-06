@@ -29,7 +29,7 @@ class MainW(QtGui.QMainWindow):
         self.setWindowIcon(app_icon)
 
         pg.setConfigOptions(imageAxisOrder='row-major')
-        self.setGeometry(15,15,1470,1000)
+        self.setGeometry(50,50,800,600)
         self.setWindowTitle('FaceMap')
         self.setStyleSheet("QMainWindow {background: 'black';}")
         self.styleUnpressed = ("QPushButton {Text-align: left; "
@@ -41,6 +41,12 @@ class MainW(QtGui.QMainWindow):
         self.styleInactive = ("QPushButton {Text-align: left; "
                               "background-color: rgb(50,50,50); "
                               "color:gray;}")
+        
+        # adding a "quit" keyboard shortcut
+        self.quitSc = QtWidgets.QShortcut(QtGui.QKeySequence('Q'), self) # or 'Ctrl+Q'
+        self.quitSc.activated.connect(self.quit)
+        self.maxSc = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+M'), self)
+        self.maxSc.activated.connect(self.showwindow)
 
         try:
             # try to load user settings
