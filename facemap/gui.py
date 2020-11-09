@@ -1,6 +1,6 @@
 import sys, os, shutil, glob, time
 import numpy as np
-from PyQt5 import QtGui, QtCore
+from PyQt5 import QtGui, QtCore, QtWidgets
 import pyqtgraph as pg
 from pyqtgraph import GraphicsScene
 import pims
@@ -45,7 +45,7 @@ class MainW(QtGui.QMainWindow):
         # adding a "quit" keyboard shortcut
         self.quitSc = QtWidgets.QShortcut(QtGui.QKeySequence('Q'), self) # or 'Ctrl+Q'
         self.quitSc.activated.connect(self.quit)
-        self.maxSc = QtWidgets.QShortcut(QtGui.QKeySequence('Ctrl+M'), self)
+        self.maxSc = QtWidgets.QShortcut(QtGui.QKeySequence('M'), self)
         self.maxSc.activated.connect(self.showwindow)
 
         try:
@@ -151,6 +151,8 @@ class MainW(QtGui.QMainWindow):
         self.Floaded = False
         self.wraw = False
         self.win.scene().sigMouseClicked.connect(self.plot_clicked)
+        self.minView = False
+        self.showwindow()
         self.win.show()
         self.show()
         self.processed = False
@@ -739,6 +741,21 @@ class MainW(QtGui.QMainWindow):
         self.frameSlider.setEnabled(status)
         self.process.setEnabled(status)
         self.saverois.setEnabled(status)
+
+    def showwindow(self):
+        if self.minView:
+            self.minView = self.maxview()
+        else:
+            self.minView = self.minview()
+    def maxview(self):
+        self.showFullScreen()
+        return False
+    def minview(self):
+        self.showNormal()
+        return True
+    
+    def quit(self):
+        sys.exit()
 
 def run(moviefile=None,savedir=None):
     # Always start by initializing Qt (only once per application)
